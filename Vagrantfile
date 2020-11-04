@@ -82,7 +82,7 @@ Vagrant.configure("2") do |config|
     (1..3).each do |n|
         config.vm.define "odoo-#{n}" do |define|
 
-            define.vm.box = "odoo"
+            config.vm.box = "ubuntu/focal64"
 
             define.ssh.insert_key = false
             define.vm.hostname = "odoo-#{n}"
