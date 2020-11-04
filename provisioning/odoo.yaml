@@ -1,0 +1,136 @@
+---
+- hosts: odoo-1
+  gather_facts: yes
+  become: yes
+  roles:
+    - { role: geerlingguy.nfs }
+  pre_tasks:
+    - name: Create extras directory
+      file:
+        path: /home/vagrant/extra
+        state: directory
+        owner: nobody 
+        group: nogroup
+    - name: Create data directory
+      file:
+        path: /home/vagrant/data
+        state: directory
+        owner: nobody 
+        group: nogroup
+        mode: 0644
+  post_tasks:
+    - name: Copy  docker-compose configuration
+      copy:
+        src: templates/docker-compose.yaml
+        dest: /home/vagrant/docker-compose.yaml
+    - name: Copy extra module
+      unarchive:
+        src: extra/session_db.zip
+        dest: /home/vagrant/extra
+
+- hosts: odoo-*
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'gnupg2', 'software-properties-common', 'nfs-common', 'unzip', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+    - name: Update apt and install docker-compose
+      apt: update_cache=yes name=docker-compose state=latest
+    - name: Pull default Docker image
+      docker_image:
+        name: "odoo:12"
+        source: pull
+    - name: Copy  docker-compose configuration
+      copy:
+        src: templates/docker-compose-node.yaml
+        dest: /home/vagrant/docker-compose.yaml
+      when: role != "odoo1"
+    - name: Create config directory
+      file:
+        path: /home/vagrant/config
+        state: directory
+    - name: Create extra and data folders
+      file:
+        path: /home/vagrant/{{ item }}
+        state: directory
+      register: file_output
+      ignore_errors: yes
+      loop:
+        - data
+        - extra
+      when: role != "odoo1"
+    - name: Copy Odoo config
+      template:
+        src: templates/odoo.cfg.j2
+        dest: /home/vagrant/config/odoo.conf
+    - name: umount to prevent stale file handle
+      ignore_errors: yes
+      shell: |
+        umount /home/vagrant/extra &&
+        umount /home/vagrant/data
+      when: role != "odoo1"
+    - name: Set mountpoint extra
+      ignore_errors: yes
+      shell: |
+        mount 172.16.1.31:/home/vagrant/extra /home/vagrant/extra
+      when: role != "odoo1"
+    - name: Set mountpoint data
+      ignore_errors: yes
+      shell: |
+        mount 172.16.1.31:/home/vagrant/data /home/vagrant/data
+      when: role != "odoo1"
+    - name: Down docker container
+      shell: docker-compose down
+      args:
+        chdir: /home/vagrant
+    - name: Up docker container
+      shell: docker-compose up -d
+      args:
+        chdir: /home/vagrant
+    - name: Add Influxdb apt key
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+        state: present
+    - name: Add Influxdb repository
+      apt_repository:
+        repo: 'deb https://repos.influxdata.com/ubuntu focal stable'
+        state: present
+        update_cache: true
+    - name: Install Telegraf
+      package:
+        name: telegraf
+        state: present
+    - name: Ensure Telegraf is started and enabled at boot
+      service:
+        name: telegraf
+        state: started
+        enabled: yes
+    - name: Copy Telegraf configuration.
+      template:
+        src: "templates/telegraf.conf.j2"
+        dest: "/etc/telegraf/telegraf.conf"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart Telegraf
+  handlers:
+    - name: Restart Telegraf
+      service:
+        name: telegraf
+        state: restarted

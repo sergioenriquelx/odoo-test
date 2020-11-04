@@ -1,0 +1,53 @@
+---
+- hosts: pgsql-*
+  gather_facts: yes
+  become: yes
+  roles:
+    - postgres_12
+    - ssh
+    - repmgr
+    - registration
+  pre_tasks:
+    - name: Install acl Package
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: [ 'acl','apt-transport-https', 'gnupg2', 'software-properties-common' ]
+  post_tasks:
+    - name: Setup repmgr user and database
+      become_user: postgres
+      ignore_errors: yes
+      shell: |
+        createuser -s odoo &&
+        createdb session_db &&
+        createdb odoo
+      when: role == "primary"
+    - name: Add Influxdb apt key
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+        state: present
+    - name: Add Influxdb repository
+      apt_repository:
+        repo: 'deb https://repos.influxdata.com/ubuntu focal stable'
+        state: present
+        update_cache: true
+    - name: Install Telegraf
+      package:
+        name: telegraf
+        state: present
+    - name: Ensure Telegraf is started and enabled at boot
+      service:
+        name: telegraf
+        state: started
+        enabled: yes
+    - name: Copy Telegraf configuration.
+      template:
+        src: "templates/telegraf.conf.j2"
+        dest: "/etc/telegraf/telegraf.conf"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart Telegraf
+  handlers:
+    - name: Restart Telegraf
+      service:
+        name: telegraf
+        state: restarted

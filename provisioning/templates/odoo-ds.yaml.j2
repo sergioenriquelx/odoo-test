@@ -1,0 +1,9 @@
+apiVersion: 1
+
+datasources:
+  - name: influxdb-odoo
+    type: influxdb
+    database: odoo_metric_db
+    url: http://{{ monitor_ip }}:8086
+    jsonData:
+      timeInterval: "15s"

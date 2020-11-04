@@ -1,0 +1,738 @@
+{
+    "annotations": {
+        "list": [{
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+        }]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 2,
+    "links": [],
+    "panels": [{
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 8,
+            "panels": [],
+            "title": "Nginx Servers",
+            "type": "row"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 0,
+                "y": 1
+            },
+            "id": 9,
+            "links": [{
+                "targetBlank": true,
+                "title": "nginx-1",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=web1"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "web1"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Nginx-1",
+            "type": "stat"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 4,
+                "y": 1
+            },
+            "id": 10,
+            "links": [{
+                "title": "nginx-2",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=web2"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "web2"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Nginx-2",
+            "type": "stat"
+        },
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 6
+            },
+            "id": 4,
+            "panels": [],
+            "title": "Odoo Servers",
+            "type": "row"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 0,
+                "y": 7
+            },
+            "id": 2,
+            "links": [{
+                "targetBlank": true,
+                "title": "Odoo-1",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=odoo1"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "odoo1"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Odoo-1",
+            "type": "stat"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 4,
+                "y": 7
+            },
+            "id": 5,
+            "links": [{
+                "targetBlank": true,
+                "title": "odoo-2",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=odoo2"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "odoo2"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Odoo-2",
+            "type": "stat"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 8,
+                "y": 7
+            },
+            "id": 6,
+            "links": [{
+                "targetBlank": true,
+                "title": "Odoo-3",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=odoo3"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "odoo3"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Odoo-3",
+            "type": "stat"
+        },
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 12
+            },
+            "id": 12,
+            "panels": [],
+            "title": "Postgres Servers",
+            "type": "row"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 0,
+                "y": 13
+            },
+            "id": 13,
+            "links": [{
+                "title": "postgres-master",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=primary"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "primary"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Master",
+            "type": "stat"
+        },
+        {
+            "datasource": "influxdb-odoo",
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {},
+                    "mappings": [],
+                    "noValue": "Down",
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [{
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "s"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 4,
+                "y": 13
+            },
+            "id": 14,
+            "links": [{
+                "title": "postgres-slave",
+                "url": "http://grafana.dev/d/Iqw--kMWz/host-dashboard?orgId=1&refresh=1m&var-Host=slave"
+            }],
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "mean"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "7.3.1",
+            "targets": [{
+                "groupBy": [{
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "null"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "system",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "queryType": "randomWalk",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [{
+                            "params": [
+                                "uptime"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "last"
+                        }
+                    ]
+                ],
+                "tags": [{
+                    "key": "host",
+                    "operator": "=",
+                    "value": "slave"
+                }]
+            }],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Slave",
+            "type": "stat"
+        }
+    ],
+    "schemaVersion": 26,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Hosts-Uptime",
+    "uid": "uzxPJdhGz",
+    "version": 5
+}

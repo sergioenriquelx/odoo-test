@@ -1,0 +1,46 @@
+upstream odoo {
+    server {{ odoo1_ip }}:8069;
+    server {{ odoo2_ip }}:8069;
+    server {{ odoo3_ip }}:8069;
+}
+
+upstream odoo-chat {
+    server {{ odoo1_ip }}:8072;
+    server {{ odoo2_ip }}:8072;
+    server {{ odoo3_ip }}:8072;
+}
+
+server {
+    server_name odoo.dev;
+
+    access_log /var/log/nginx/odoo.access.log;
+    error_log /var/log/nginx/odoo.error.log;
+
+    proxy_read_timeout 720s;
+    proxy_connect_timeout 720s;
+    proxy_send_timeout 720s;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    location / {
+        proxy_redirect off;
+        proxy_pass http://odoo;
+    }
+
+    location /longpolling {
+        proxy_pass http://odoo-chat;
+    }
+
+    location ~* /web/static/ {
+        proxy_cache_valid 200 90m;
+        proxy_buffering    on;
+        expires 864000;
+        proxy_pass http://odoo;
+    }
+
+    # gzip
+    gzip_types text/css text/less text/plain text/xml application/xml application/json application/javascript;
+    gzip on;
+}

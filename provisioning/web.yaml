@@ -1,0 +1,69 @@
+---
+- hosts: web-*
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Install NGINX Package
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: [ 'nginx', 'acl', 'apt-transport-https', 'gnupg2', 'software-properties-common' ]
+    - name: Sets Odoo vhost
+      template:
+        src: "templates/odoo.conf.j2"
+        dest: "/etc/nginx/sites-available/odoo.conf"
+      notify: Reload Nginx
+    - name: Enables Odoo vhost
+      file:
+        src: "/etc/nginx/sites-available/odoo.conf"
+        dest: "/etc/nginx/sites-enabled/odoo.conf"
+        state: link
+      notify: Reload Nginx
+    - name: Sets Grafana vhost
+      template:
+        src: "templates/grafana.conf.j2"
+        dest: "/etc/nginx/sites-available/grafana.conf"
+      notify: Reload Nginx
+    - name: Enables Grafana vhost
+      file:
+        src: "/etc/nginx/sites-available/grafana.conf"
+        dest: "/etc/nginx/sites-enabled/grafana.conf"
+        state: link
+      notify: Reload Nginx
+    - name: Add Influxdb apt key
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+        state: present
+    - name: Add Influxdb repository
+      apt_repository:
+        repo: 'deb https://repos.influxdata.com/ubuntu focal stable'
+        state: present
+        update_cache: true
+    - name: Install Telegraf
+      package:
+        name: telegraf
+        state: present
+    - name: Ensure Telegraf is started and enabled at boot
+      service:
+        name: telegraf
+        state: started
+        enabled: yes
+    - name: Copy Telegraf configuration.
+      template:
+        src: "templates/telegraf.conf.j2"
+        dest: "/etc/telegraf/telegraf.conf"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart Telegraf
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+    - name: Restart Telegraf
+      service:
+        name: telegraf
+        state: restarted
