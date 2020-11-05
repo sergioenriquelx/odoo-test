@@ -3,7 +3,7 @@
   gather_facts: yes
   become: yes
   roles:
-    - postgres_12
+    - postgres
     - ssh
     - repmgr
     - registration
