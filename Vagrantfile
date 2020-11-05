@@ -90,8 +90,8 @@ Vagrant.configure("2") do |config|
             # define.vm.network :forwarded_port, guest: 8069, host: "806#{n}"
 
             define.vm.provider :virtualbox do |v|
-                v.cpus = 1
-                v.memory = 512
+                v.cpus = 2
+                v.memory = 1024
                 v.name = "odoo-#{n}"
             end
 
