@@ -8,4 +8,4 @@ services:
      - ./extra:/mnt/extra-addons
      - ./config:/etc/odoo
      - ./data:/var/lib/odoo
-    command: odoo -u all -d odoo
+    command: odoo -i session_db -d odoo

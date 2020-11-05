@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
                         "pgsql-2" => {:connection_host => "172.16.1.12",
                                     :node_id => 2,
-                                    :role => "slave" },
+                                    :role => "standby" },
 
                     }
                     ansible.verbose = "v"

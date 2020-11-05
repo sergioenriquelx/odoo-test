@@ -1,12 +1,10 @@
 upstream odoo {
-    ip_hash;
     server {{ odoo1_ip }}:8069;
     server {{ odoo2_ip }}:8069;
     server {{ odoo3_ip }}:8069;
 }
 
 upstream odoo-chat {
-    ip_hash;
     server {{ odoo1_ip }}:8072;
     server {{ odoo2_ip }}:8072;
     server {{ odoo3_ip }}:8072;

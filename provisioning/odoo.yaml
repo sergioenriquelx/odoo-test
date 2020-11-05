@@ -99,10 +99,16 @@
       shell: docker-compose down
       args:
         chdir: /home/vagrant
-    - name: Up docker container
+    - name: Up docker container first node
       shell: docker-compose up -d
       args:
         chdir: /home/vagrant
+      when: role == "odoo1"
+    - name: Up docker container rest of nodes
+      shell: docker-compose up -d
+      args:
+        chdir: /home/vagrant
+      when: role != "odoo1"
     - name: Add Influxdb apt key
       apt_key:
         url: https://repos.influxdata.com/influxdb.key
